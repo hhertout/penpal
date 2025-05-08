@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Optional
 from config.logger import logger
@@ -7,22 +8,20 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 
 class TokenClaims(BaseModel):
-    username: str
+    sub: str
+    exp: int
 
 def generate_token(username: str) -> str:
-    payload = {
-        "sub": username,
-        "exp": datetime.now() + timedelta(days=10)
-    }
-    return jwt.encode(payload, key=os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
+    token_exp = datetime.now() + timedelta(days=10)
+    claims = TokenClaims(sub=username, exp=int(token_exp.timestamp()))
+    return jwt.encode(claims.model_dump(), key=os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
 
 def get_user_from_token(token: str) -> Optional[TokenClaims]:
     try:
-        res = jwt.decode(jwt=token, key=os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
-        return TokenClaims(**res)
+        claims = jwt.decode(jwt=token, key=os.getenv("JWT_PASSPHRASE"), algorithms=["HS256"])
+        return TokenClaims(**claims)
     except jwt.ExpiredSignatureError:
         logger.info("Token expired...")
     except jwt.InvalidTokenError:
         logger.warning("Invalid token.")
-
     return None

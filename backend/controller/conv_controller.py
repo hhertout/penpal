@@ -1,0 +1,44 @@
+from pydantic import BaseModel
+from services.guard import get_user_from_token
+from typing import Annotated
+from fastapi import Header, APIRouter, HTTPException, status
+from config.logger import logger
+from repository import conv_repository
+from model.conv_model import ConvModel
+
+class NewConvArgs(BaseModel):
+    name: str
+
+router = APIRouter()
+
+@router.post("/conv/new", status_code=status.HTTP_201_CREATED)
+def create_conv(args: NewConvArgs, authorization: Annotated[str | None, Header()] = None):
+    claims = get_user_from_token(authorization)
+    if not claims:
+        logger.info("Invalid token submit, request aborted")
+        raise HTTPException(status_code=400, detail="Unauthorized")
+
+    try:
+        res = conv_repository.get_conversation_by_name(args.name)
+        if res:
+            raise HTTPException(status_code=400, detail="Conversation already exist")
+        conv = ConvModel(username=claims.sub, name=args.name, messages=[])
+        conv_repository.create_conv(conv)
+
+        return
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail="Server error")
+
+@router.get("/conv")
+def get_all_conv(authorization: Annotated[str | None, Header()] = None):
+    claims = get_user_from_token(authorization)
+    if not claims:
+        logger.info("Invalid token submit, request aborted")
+        raise HTTPException(status_code=400, detail="Unauthorized")
+
+    try:
+        return conv_repository.get_all_conversation(claims.sub)
+    except Exception as e:
+        logger.error(e)
+        raise HTTPException(status_code=500, detail="Server error")

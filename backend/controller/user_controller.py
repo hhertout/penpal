@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from config.logger import logger
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
-from repository.user import get_user_by_name
+from repository.user_repository import get_user_by_name
 from services.rate_limiter import set_rate, is_rate_limited
 from services import guard
 
