@@ -1,9 +1,12 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 import jwt
 from datetime import datetime, timedelta
 import os
 from config.logger import logger
+from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
+from repository.user import get_user_by_name
 
 class LoginArgs(BaseModel):
     username: str
@@ -22,13 +25,26 @@ def login(args: LoginArgs):
     # RATE LIMITER
     # TODO
 
-    logger.info(f"Login args = {args}")
+    logger.debug(f"Login args = {args}")
+    user = get_user_by_name(args.username)
+    if user is None:
+        logger.info(f"Login failed for user = {args.username}")
+        raise HTTPException(status_code=400, detail="Invalid credentials")
 
+    ph = PasswordHasher()
+    try:
+        pwd_match = ph.verify(user.password, args.password)
+        if not pwd_match:
+            logger.info(f"Login failed for user = {args.username}")
+            raise HTTPException(status_code=400, detail="Invalid credentials")
+    except VerifyMismatchError:
+        logger.info(f"Login failed for user = {args.username}")
+        raise HTTPException(status_code=400, detail="Invalid credentials")
+
+    # JWT gen
     payload = {
         "sub": args.username,
         "exp": datetime.now() + timedelta(days=10)
     }
-
-    # Génération du token
     token = jwt.encode(payload, os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
-    return {"token": token}
+    return {"token": token, "username": args.username}

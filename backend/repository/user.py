@@ -1,9 +1,9 @@
 import os
 from typing import Optional
-
+from config.logger import logger
 from pydantic import BaseModel
-
 from config.mongo import mongodb
+from argon2 import PasswordHasher
 
 
 class UserModel(BaseModel):
@@ -17,6 +17,12 @@ def get_user_by_name(username: str) -> Optional[UserModel]:
     return None
 
 def insert_admin_user():
-    admin = UserModel(username=os.getenv("ADMIN_USERNAME"),password=os.getenv("ADMIN_PASSWORD"))
+    admin = mongodb.users.find_one({"username": os.getenv("ADMIN_USERNAME")})
 
-    mongodb.users.insert_one(admin.model_dump())
+    if admin is None:
+        ph = PasswordHasher()
+        pwd_hash = ph.hash(password=os.getenv("ADMIN_PASSWORD"))
+        admin = UserModel(username=os.getenv("ADMIN_USERNAME"),password=pwd_hash)
+        mongodb.users.insert_one(admin.model_dump())
+    else:
+        logger.warning("Admin account already present... skipping...")

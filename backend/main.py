@@ -1,9 +1,9 @@
-from fastapi import FastAPI
 from dotenv import load_dotenv
+load_dotenv()
+
+from fastapi import FastAPI
 from controller import router as controller_router
 from repository.user import insert_admin_user
-
-load_dotenv()
 
 # INSERT ADMIN ACCOUNT
 insert_admin_user()
