@@ -1,13 +1,12 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-import jwt
-from datetime import datetime, timedelta
-import os
+
 from config.logger import logger
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from repository.user import get_user_by_name
 from services.rate_limiter import set_rate, is_rate_limited
+from services import guard
 
 class LoginArgs(BaseModel):
     username: str
@@ -47,9 +46,5 @@ def login(args: LoginArgs):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     # JWT gen
-    payload = {
-        "sub": args.username,
-        "exp": datetime.now() + timedelta(days=10)
-    }
-    token = jwt.encode(payload, key=os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
+    token = guard.generate_token(args.username)
     return {"token": token, "username": args.username}
