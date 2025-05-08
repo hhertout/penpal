@@ -7,6 +7,7 @@ from config.logger import logger
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
 from repository.user import get_user_by_name
+from services.rate_limiter import set_rate, is_rate_limited
 
 class LoginArgs(BaseModel):
     username: str
@@ -23,8 +24,12 @@ router = APIRouter()
 @router.post("/login")
 def login(args: LoginArgs):
     # RATE LIMITER
-    # TODO
+    is_rl = is_rate_limited(args.username)
+    if is_rl:
+        raise HTTPException(status_code=403, detail="Too many login attempts. Please wait a moment before trying again...")
+    set_rate(args.username)
 
+    # Login attempt
     logger.debug(f"Login args = {args}")
     user = get_user_by_name(args.username)
     if user is None:
@@ -46,5 +51,5 @@ def login(args: LoginArgs):
         "sub": args.username,
         "exp": datetime.now() + timedelta(days=10)
     }
-    token = jwt.encode(payload, os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
+    token = jwt.encode(payload, key=os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
     return {"token": token, "username": args.username}

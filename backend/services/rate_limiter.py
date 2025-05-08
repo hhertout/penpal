@@ -21,4 +21,4 @@ def get_rate(username: str) -> Optional[int]:
 
 def is_rate_limited(username: str) -> bool:
     count = redis_rl.get(username)
-    return int(count) > MAX_ATTEMPT if count else False
+    return int(count) >= MAX_ATTEMPT if count else False
