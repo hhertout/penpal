@@ -9,6 +9,17 @@ services:
       - ./backend:/app
     env_file:
       - backend/.env
+
+  llm:
+    build:
+      context: ai
+      dockerfile: phi.dockerfile
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_data:/root/.ollama
+    entrypoint: >
+      sh -c "ollama serve & sleep 5 && ollama pull phi3:mini && tail -f /dev/null"
       
   mongodb:
     image: mongo
@@ -35,3 +46,4 @@ services:
 
 volumes:
   mongo:
+  ollama_data:

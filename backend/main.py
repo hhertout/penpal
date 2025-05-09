@@ -10,4 +10,13 @@ insert_admin_user()
 
 # Launch API
 app = FastAPI()
+
+@app.get("/health")
+def health_check():
+    return {"status": "up"}
+
+@app.get("/ready")
+def ready_check():
+    return {"status": "ready"}
+
 app.include_router(controller_router)

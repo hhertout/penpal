@@ -1,7 +1,7 @@
 from typing import Optional
 
 from bson import ObjectId
-from pymongo.results import InsertOneResult, UpdateResult
+from pymongo.results import InsertOneResult, UpdateResult, DeleteResult
 from config.mongo import mongodb
 from model.conv_model import ConvModel, Message
 from typing import List
@@ -31,6 +31,20 @@ def get_conversation_by_name(name: str) -> Optional[ConvModel]:
         return ConvModel(**conv)
 
     return None
+
+def get_latest_message(conv_id: str, limit=10) -> List[Message] | None:
+    res = mongodb.conv.find_one({
+        "_id": ObjectId(conv_id),
+    })
+
+    if res["messages"]:
+        res = res["messages"][-limit:]
+        return [Message(**message) for message in res]
+    else:
+        return None
+
+def delete_conv_by_id(_id: str) -> DeleteResult:
+    return mongodb.conv.delete_one({"_id": ObjectId(_id)})
 
 def get_conversation_by_id(_id: str) -> Optional[ConvModel]:
     conv = mongodb.conv.find_one({"_id": ObjectId(_id)})

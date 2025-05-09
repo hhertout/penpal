@@ -2,7 +2,7 @@ import pkgutil
 import importlib
 from fastapi import APIRouter
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1")
 
 for _, module_name, _, in pkgutil.iter_modules(__path__):
     if module_name.endswith("_controller"):

@@ -6,6 +6,7 @@ from config.logger import logger
 from services.guard import get_user_from_token
 from repository import conv_repository
 from model.conv_model import Message
+from services.llm import Llm, Character
 
 router = APIRouter()
 
@@ -23,10 +24,24 @@ def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Hea
     try:
         conv_repository.add_message(
             conv_id=args.conv_id,
-            msg=Message(kind="in", message=args.message)
+            msg=Message(sender="user", message=args.message)
         )
 
-        return {"response": "ok"}
+        latest_msg = conv_repository.get_latest_message(conv_id=args.conv_id)
+
+        char = Character(name="Tony", city="New York")
+        llm = Llm(char)
+        res = llm.prompt(args.message, latest_msg)
+        correction = llm.prompt_for_correction(args.message)
+
+        conv_repository.add_message(
+            conv_id=args.conv_id,
+            msg=Message(sender="ai", message=res, correction=correction)
+        )
+
+        return {"response": res, "correction": correction}
+    except HTTPException as e:
+        raise e
     except Exception as e:
         logger.error(e)
         raise HTTPException(status_code=500, detail="Server error")

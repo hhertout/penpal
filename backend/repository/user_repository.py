@@ -1,5 +1,8 @@
 import os
 from typing import Optional
+
+from pymongo.results import UpdateResult
+
 from config.logger import logger
 from config.mongo import mongodb
 from argon2 import PasswordHasher
@@ -10,6 +13,16 @@ def get_user_by_name(username: str) -> Optional[UserModel]:
     if user_data:
         return UserModel(**user_data)
     return None
+
+def update_nickname(username: str, nickname: str) -> UpdateResult:
+     return mongodb.users.update_one(
+         {"username": username},
+         {
+             "$set": {
+             "nickname": nickname
+            }
+         }
+     )
 
 def insert_admin_user():
     admin = mongodb.users.find_one({"username": os.getenv("ADMIN_USERNAME")})
