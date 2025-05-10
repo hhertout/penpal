@@ -11,9 +11,7 @@ services:
       - backend/.env
 
   llm:
-    build:
-      context: ai
-      dockerfile: phi.dockerfile
+    image: ollama/ollama
     ports:
       - 11434:11434
     volumes:
