@@ -3,7 +3,7 @@ from pydantic import ConfigDict
 from model.object_id import PyObjectId
 
 class UserModel(BaseModel):
-    id: PyObjectId = Field(alias="_id")
+    id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     username: str
     password: str
 

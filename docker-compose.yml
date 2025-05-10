@@ -17,7 +17,7 @@ services:
     volumes:
       - ollama_data:/root/.ollama
     entrypoint: >
-      sh -c "ollama serve & sleep 5 && ollama pull phi3:mini && tail -f /dev/null"
+      sh -c "ollama serve & sleep 5 && ollama pull phi4-mini && tail -f /dev/null"
       
   mongodb:
     image: mongo
