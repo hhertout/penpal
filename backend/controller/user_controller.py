@@ -25,6 +25,15 @@ class DefineNicknameArgs(BaseModel):
 
 router = APIRouter()
 
+@router.get("/check-token")
+def check_token(authorization: Annotated[str | None, Header()] = None):
+    claims = guard.get_user_from_token(authorization)
+    if not claims:
+        logger.info("Invalid token submit, request aborted")
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    return {"user": claims.sub}
+
 @router.post("/login")
 def login(args: LoginArgs):
     # RATE LIMITER
@@ -61,7 +70,7 @@ def define_nickname(args: DefineNicknameArgs, authorization: Annotated[str | Non
     claims = guard.get_user_from_token(authorization)
     if not claims:
         logger.info("Invalid token submit, request aborted")
-        raise HTTPException(status_code=400, detail="Unauthorized")
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
     if args.nickname is None:
             raise HTTPException(status_code=400, detail="Nickname is required")

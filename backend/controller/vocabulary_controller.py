@@ -18,7 +18,7 @@ def get_daily_vocabulary(authorization: Annotated[str | None, Header()] = None):
     claims = get_user_from_token(authorization)
     if not claims:
         logger.info("Invalid token submit, request aborted")
-        raise HTTPException(status_code=400, detail="Unauthorized")
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
     cache = vocabulary_repository.get_daily_vocabulary()
     if cache is not None:

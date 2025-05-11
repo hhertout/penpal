@@ -20,7 +20,7 @@ def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Hea
     claims = get_user_from_token(authorization)
     if not claims:
         logger.info("Invalid token submit, request aborted")
-        raise HTTPException(status_code=400, detail="Unauthorized")
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
         conv = conv_repository.get_conversation_by_id(args.conv_id)
