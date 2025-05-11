@@ -31,7 +31,7 @@ def insert_admin_user():
         ph = PasswordHasher()
         pwd_hash = ph.hash(password=os.getenv("ADMIN_PASSWORD"))
         admin = UserModel(username=os.getenv("ADMIN_USERNAME"),password=pwd_hash)
-        mongodb.users.insert_one(admin.model_dump())
+        mongodb.users.insert_one(admin.model_dump(by_alias=True, exclude={"id"}))
         logger.info("Admin account successfully added...")
     else:
         logger.warning("Admin account already present... skipping...")

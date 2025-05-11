@@ -2,40 +2,31 @@ import os
 from config.logger import logger
 import requests
 import json
-from typing import Literal
 
-from model.conv_model import Message
+from model.message_model import MessageModel
 from typing import List
-
-
-class Character:
-    name: str
-    gender: Literal["m", "f"]
-    city: str
-
-    def __init__(self, name: str, city: str, gender: Literal["m", "f"] = "m"):
-        self.city = city
-        self.name = name
-        self.gender = gender
+from model.character_model import CharacterModel
 
 class Llm:
     DEFAULT_MODEL = "phi4-mini"
-    DEEPSEEK_R1 = "deepseek-r1:7b"
 
     endpoint: str | None = os.getenv("LLM_ENDPOINT")
-    character: Character
+    character: CharacterModel
     system_prompt: str
+    user_country: str
     corrector_system_prompt: str
+    daily_vocabulary_prompt: str
 
-    def __init__(self, character: Character):
+    def __init__(self, character: CharacterModel, user_country: str= "France"):
         if self.endpoint is None:
             logger.error("LLM_ENDPOINT is not defined")
             raise Exception("LLM_ENDPOINT is not defined")
 
         self.character = character
+        self.user_country = user_country
         self.system_prompt = (
             f"You are chatting as the user's best friend from an English-speaking country. "
-            "The user is from France. "
+            f"The user is from {self.user_country}. "
             "Never overdo it. Avoid sounding dramatic, poetic, or overly emotional. No emojis. Be relaxed and casual. "
             f"Your name is {self.character.name}, you are a {'man' if self.character.gender == 'm' else 'woman'}, and you live in {self.character.city}. "
             "You don’t know much about the user's life yet — so you're curious and want to get to know them. "
@@ -58,7 +49,43 @@ class Llm:
             "Use standard American English, but be tolerant of common informal language, abbreviations, or slang (e.g., 'NYC', 'gonna', 'wanna', 'u') as long as they make sense in context. "
             "Do not overcorrect or make the sentence overly formal. "
             "Keep your tone helpful and supportive. The current region is the USA. "
+            "NEVER use phrases like 'How can I assist you'. "
+            "NEVER offer help unless the user clearly asks for it. "
         )
+
+        self.daily_vocabulary_prompt = (
+            "Give me exactly 5 English words: 1 conjunctive adverbs, 1 adjective, and 3 common nouns. "
+            "Each word must be medium or advanced level — not for beginners. "
+            "For each word, provide its French translation. "
+            "Respond only with a valid JSON object like this:\n\n"
+            "[\n"
+            '  {"en": "example", "fr": "exemple"},\n'
+            '  {"en": "...", "fr": "..."},\n'
+            '  ...\n'
+            "]\n\n"
+            "Do not include any explanation or extra text."
+        )
+
+    def prompt_for_daily_vocabulary(self)-> str:
+        llm_response = ""
+
+        res = requests.post(
+            url=f"{self.endpoint}/api/generate",
+            json={
+                "model": self.DEFAULT_MODEL,
+                "prompt": self.daily_vocabulary_prompt,
+                "stream": True
+            },
+            stream=True
+        )
+
+        for line in res.iter_lines():
+            if line:
+
+                data: dict = json.loads(line.decode('utf-8'))
+                llm_response += data.get("response", "")
+
+        return llm_response.strip()
 
     def prompt_for_correction(self, prompt: str) -> str:
         llm_response = ""
@@ -72,7 +99,7 @@ class Llm:
             json={
                 "model": self.DEFAULT_MODEL,
                 "messages": messages,
-                "stop": ["---", "Instruction:"],
+                "stop": ["---", "End of correction:"],
                 "stream": True
             },
             stream=True
@@ -85,7 +112,7 @@ class Llm:
 
         return llm_response.strip()
 
-    def prompt(self, prompt: str, latest_messages: List[Message] = None) -> str:
+    def prompt(self, prompt: str, latest_messages: List[MessageModel] = None) -> str:
         llm_response = ""
         messages = [{"role": "system", "content": self.system_prompt}]
 
