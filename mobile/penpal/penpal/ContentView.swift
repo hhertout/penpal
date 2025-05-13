@@ -6,28 +6,36 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var viewModel = LoginViewModel()
+    @StateObject var viewModel: LoginViewModel
+    @EnvironmentObject var session: Session
+    
+    init(session: Session) {
+        _viewModel = StateObject(wrappedValue: LoginViewModel(session: session))
+    }
 
     var body: some View {
         NavigationStack {
             ZStack {
-                if viewModel.isLoggedIn {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .scaleEffect(2)
+                } else if session.isLoggedIn {
                     HomeView()
                 } else {
                     VStack {
                         LoginView(viewModel: viewModel)
-                    }.blur(radius: viewModel.isLoading ? 3 : 0)
-                        .disabled(viewModel.isLoading)
-                        .onAppear {
-                            viewModel.checkAuthentication()
-                        }
-
+                    }
                 }
+            }
+            .task {
+                await viewModel.checkAuthentication()
             }
         }
     }
 }
 
 #Preview {
-    ContentView()
+    let session = Session()
+    ContentView(session: session)
+        .environmentObject(session)
 }

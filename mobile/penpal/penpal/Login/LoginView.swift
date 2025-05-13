@@ -13,8 +13,6 @@ struct LoginView: View {
             ZStack {
                 LoginFormView(viewModel: viewModel)
             }
-            .contentMargins(.vertical, 12)
-            .contentMargins(.horizontal, 12)
         }
     }
 }

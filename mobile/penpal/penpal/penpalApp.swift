@@ -7,9 +7,11 @@ import SwiftUI
 
 @main
 struct penpalApp: App {
+    @StateObject var session = Session()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(session: session).environmentObject(session)
         }
     }
 }
