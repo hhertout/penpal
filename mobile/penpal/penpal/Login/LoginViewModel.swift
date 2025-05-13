@@ -92,8 +92,8 @@ class LoginViewModel: ObservableObject {
 
             session.user = auth.username
             session.isLoggedIn = true
-            
-            print("Session \(session.isLoggedIn), \(session.user ?? "none")")
+            username = ""
+            password = ""
         } catch let error as ServerError {
             switch error.detail {
             case "Too many login attempts. Please wait a moment before trying again...":

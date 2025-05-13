@@ -12,15 +12,17 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 HStack {
                     HomeTopBar()
-                }
+                }.padding(.horizontal, 24)
 
                 ZStack {
                     VStack(spacing: 12) {
                         HStack {
-                            Text("Bienvenue")
+                            Text("Bienvenue !")
                                 .font(.largeTitle)
+                                .fontWeight(.bold)
+                            Spacer()
                         }
-                        
+
                         HStack {
                             VStack {
                                 VocabularyView()
@@ -30,8 +32,9 @@ struct HomeView: View {
                     }
                     .padding(.vertical, 32)
                 }
+                .padding(.horizontal, 24)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                
+
                 VStack {
                     HomeBottomBar()
                 }

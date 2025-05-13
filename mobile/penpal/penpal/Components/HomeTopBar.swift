@@ -10,6 +10,7 @@ public struct HomeTopBar: View {
 
     public var body: some View {
         HStack {
+            Spacer()
             Button {
                 session.isLoggedIn = false
                 session.user = nil

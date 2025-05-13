@@ -21,7 +21,8 @@ public struct HomeBottomBar: View {
                         )
                         .foregroundColor(.white)
                         Text("Mes conversations")
-                        .foregroundColor(.white)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
                     }
                 }
                 .frame(height: 52)
