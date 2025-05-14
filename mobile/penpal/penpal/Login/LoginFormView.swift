@@ -30,14 +30,18 @@ struct LoginFormView: View {
             .padding(8)
 
             HStack {
-                StdButton(
-                    label: "Connexion",
-                    label_color: .white,
-                    background: .blue,
-                    disabled: viewModel.isLogginLoading
-                ) {
-                    Task {
-                        await viewModel.login()
+                if viewModel.isLogginLoading {
+                    ProgressView()
+                } else {
+                    StdButton(
+                        label: "Connexion",
+                        label_color: .white,
+                        background: Theme.Primary,
+                        disabled: viewModel.isLogginLoading
+                    ) {
+                        Task {
+                            await viewModel.login()
+                        }
                     }
                 }
             }
@@ -46,6 +50,7 @@ struct LoginFormView: View {
         .onReceive(viewModel.$errorMessage) { error in
             showErrorAlert = error != nil
         }
+        .contentMargins(.vertical, 16)
         .alert(
             "Erreur",
             isPresented: $showErrorAlert,

@@ -20,6 +20,8 @@ struct HomeView: View {
                             Text("Bienvenue !")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
+                                .padding(.vertical)
+                                .padding(.horizontal, 6)
                             Spacer()
                         }
 

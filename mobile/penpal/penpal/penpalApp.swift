@@ -11,7 +11,8 @@ struct penpalApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(session: session).environmentObject(session)
+            ContentView(session: session)
+                .environmentObject(session)
         }
     }
 }

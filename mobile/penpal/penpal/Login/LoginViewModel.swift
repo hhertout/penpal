@@ -37,7 +37,7 @@ class LoginViewModel: ObservableObject {
         self.isLoading = true
 
         if let token = KeychainHelper.shared.read(
-            service: "app",
+            service: "auth",
             account: "token"
         ),
             !token.isEmpty
