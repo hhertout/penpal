@@ -37,7 +37,7 @@ class VocubularyViewModel: ObservableObject {
 
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = ["Content-Type": "application/json"]
-        request.allHTTPHeaderFields = ["Authorization": token!]
+        request.allHTTPHeaderFields = ["Authorization": token ?? ""]
 
         do {
             let (data, response) = try await URLSession.shared.data(

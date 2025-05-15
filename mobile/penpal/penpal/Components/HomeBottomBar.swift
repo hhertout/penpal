@@ -8,8 +8,8 @@ import SwiftUI
 public struct HomeBottomBar: View {
     public var body: some View {
         HStack {
-            Button {
-                // Action
+            NavigationLink {
+                ConversationwView()
             } label: {
                 ZStack {
                     RoundedRectangle(cornerRadius: 8)

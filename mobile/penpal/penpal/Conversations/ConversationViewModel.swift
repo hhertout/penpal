@@ -13,15 +13,28 @@ class ConversationViewModel: ObservableObject {
 
     init() {}
 
+    @MainActor
     func getConversations() async {
         isLoading = true
         errorMessage = nil
+        
+        let token = KeychainHelper.shared.read(
+            service: "auth",
+            account: "token"
+        )
+
+        if token == nil {
+            errorMessage = "Il semblerait que vous ne soyez pas connecter."
+            isLoading = false
+            return
+        }
 
         var request = URLRequest(
             url: URL(string: "\(Constants.BACKEND_URL)/api/v1/conv")!
         )
         request.httpMethod = "GET"
         request.allHTTPHeaderFields = ["Content-Type": "application/json"]
+        request.allHTTPHeaderFields = ["Authorization": token ?? ""]
 
         do {
             let (data, response) = try await URLSession.shared.data(
@@ -49,7 +62,7 @@ class ConversationViewModel: ObservableObject {
                 errorMessage = error.localizedDescription
             }
         }
-        
+
         isLoading = false
     }
 }
