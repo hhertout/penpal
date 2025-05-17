@@ -15,6 +15,18 @@ class SendMessageArgs(BaseModel):
     conv_id: str
     message: str
 
+@router.get("/messages/{conv_id}")
+def get_message(conv_id: str, authorization: Annotated[str | None, Header()] = None):
+    claims = get_user_from_token(authorization)
+    if not claims:
+        logger.info("Invalid token submit, request aborted")
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    if conv_id is None:
+        raise HTTPException(status_code=400, detail="conv id is not set")
+
+    return message_repository.get_messages(conv_id)
+
 @router.post("/message")
 def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Header()] = None):
     claims = get_user_from_token(authorization)

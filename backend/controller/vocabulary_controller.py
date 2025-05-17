@@ -13,6 +13,20 @@ from repository import vocabulary_repository
 
 router = APIRouter()
 
+@router.get("/vocabulary/irregular_verbs")
+def get_irregular_verbs(authorization: Annotated[str | None, Header()] = None):
+    claims = get_user_from_token(authorization)
+    if not claims:
+        logger.info("Invalid token submit, request aborted")
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    try:
+        with open("data/verbs.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data
+    except Exception as e:
+        return HTTPException(status_code=500, detail=e)
+
 @router.get("/vocabulary/daily")
 def get_daily_vocabulary(authorization: Annotated[str | None, Header()] = None):
     claims = get_user_from_token(authorization)

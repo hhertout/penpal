@@ -1,0 +1,464 @@
+[
+  {
+    "base": "be",
+    "preterit": "was/were",
+    "past_participle": "been",
+    "translation": "être"
+  },
+  {
+    "base": "become",
+    "preterit": "became",
+    "past_participle": "become",
+    "translation": "devenir"
+  },
+  {
+    "base": "begin",
+    "preterit": "began",
+    "past_participle": "begun",
+    "translation": "commencer"
+  },
+  {
+    "base": "break",
+    "preterit": "broke",
+    "past_participle": "broken",
+    "translation": "casser"
+  },
+  {
+    "base": "bring",
+    "preterit": "brought",
+    "past_participle": "brought",
+    "translation": "apporter"
+  },
+  {
+    "base": "build",
+    "preterit": "built",
+    "past_participle": "built",
+    "translation": "construire"
+  },
+  {
+    "base": "buy",
+    "preterit": "bought",
+    "past_participle": "bought",
+    "translation": "acheter"
+  },
+  {
+    "base": "catch",
+    "preterit": "caught",
+    "past_participle": "caught",
+    "translation": "attraper"
+  },
+  {
+    "base": "choose",
+    "preterit": "chose",
+    "past_participle": "chosen",
+    "translation": "choisir"
+  },
+  {
+    "base": "come",
+    "preterit": "came",
+    "past_participle": "come",
+    "translation": "venir"
+  },
+  {
+    "base": "cost",
+    "preterit": "cost",
+    "past_participle": "cost",
+    "translation": "coûter"
+  },
+  {
+    "base": "cut",
+    "preterit": "cut",
+    "past_participle": "cut",
+    "translation": "couper"
+  },
+  {
+    "base": "do",
+    "preterit": "did",
+    "past_participle": "done",
+    "translation": "faire"
+  },
+  {
+    "base": "draw",
+    "preterit": "drew",
+    "past_participle": "drawn",
+    "translation": "dessiner"
+  },
+  {
+    "base": "drink",
+    "preterit": "drank",
+    "past_participle": "drunk",
+    "translation": "boire"
+  },
+  {
+    "base": "drive",
+    "preterit": "drove",
+    "past_participle": "driven",
+    "translation": "conduire"
+  },
+  {
+    "base": "eat",
+    "preterit": "ate",
+    "past_participle": "eaten",
+    "translation": "manger"
+  },
+  {
+    "base": "fall",
+    "preterit": "fell",
+    "past_participle": "fallen",
+    "translation": "tomber"
+  },
+  {
+    "base": "feel",
+    "preterit": "felt",
+    "past_participle": "felt",
+    "translation": "ressentir"
+  },
+  {
+    "base": "find",
+    "preterit": "found",
+    "past_participle": "found",
+    "translation": "trouver"
+  },
+  {
+    "base": "fly",
+    "preterit": "flew",
+    "past_participle": "flown",
+    "translation": "voler (dans les airs)"
+  },
+  {
+    "base": "forget",
+    "preterit": "forgot",
+    "past_participle": "forgotten",
+    "translation": "oublier"
+  },
+  {
+    "base": "get",
+    "preterit": "got",
+    "past_participle": "got/gotten",
+    "translation": "obtenir"
+  },
+  {
+    "base": "give",
+    "preterit": "gave",
+    "past_participle": "given",
+    "translation": "donner"
+  },
+  {
+    "base": "go",
+    "preterit": "went",
+    "past_participle": "gone",
+    "translation": "aller"
+  },
+  {
+    "base": "grow",
+    "preterit": "grew",
+    "past_participle": "grown",
+    "translation": "grandir, pousser"
+  },
+  {
+    "base": "have",
+    "preterit": "had",
+    "past_participle": "had",
+    "translation": "avoir"
+  },
+  {
+    "base": "hear",
+    "preterit": "heard",
+    "past_participle": "heard",
+    "translation": "entendre"
+  },
+  {
+    "base": "hold",
+    "preterit": "held",
+    "past_participle": "held",
+    "translation": "tenir"
+  },
+  {
+    "base": "keep",
+    "preterit": "kept",
+    "past_participle": "kept",
+    "translation": "garder"
+  },
+  {
+    "base": "know",
+    "preterit": "knew",
+    "past_participle": "known",
+    "translation": "savoir, connaître"
+  },
+  {
+    "base": "leave",
+    "preterit": "left",
+    "past_participle": "left",
+    "translation": "partir, quitter"
+  },
+  {
+    "base": "lend",
+    "preterit": "lent",
+    "past_participle": "lent",
+    "translation": "prêter"
+  },
+  {
+    "base": "let",
+    "preterit": "let",
+    "past_participle": "let",
+    "translation": "laisser"
+  },
+  {
+    "base": "lie",
+    "preterit": "lay",
+    "past_participle": "lain",
+    "translation": "être allongé"
+  },
+  {
+    "base": "lose",
+    "preterit": "lost",
+    "past_participle": "lost",
+    "translation": "perdre"
+  },
+  {
+    "base": "make",
+    "preterit": "made",
+    "past_participle": "made",
+    "translation": "faire, fabriquer"
+  },
+  {
+    "base": "mean",
+    "preterit": "meant",
+    "past_participle": "meant",
+    "translation": "signifier"
+  },
+  {
+    "base": "meet",
+    "preterit": "met",
+    "past_participle": "met",
+    "translation": "rencontrer"
+  },
+  {
+    "base": "pay",
+    "preterit": "paid",
+    "past_participle": "paid",
+    "translation": "payer"
+  },
+  {
+    "base": "put",
+    "preterit": "put",
+    "past_participle": "put",
+    "translation": "mettre"
+  },
+  {
+    "base": "read",
+    "preterit": "read",
+    "past_participle": "read",
+    "translation": "lire"
+  },
+  {
+    "base": "ride",
+    "preterit": "rode",
+    "past_participle": "ridden",
+    "translation": "faire du cheval, du vélo"
+  },
+  {
+    "base": "ring",
+    "preterit": "rang",
+    "past_participle": "rung",
+    "translation": "sonner"
+  },
+  {
+    "base": "rise",
+    "preterit": "rose",
+    "past_participle": "risen",
+    "translation": "se lever"
+  },
+  {
+    "base": "run",
+    "preterit": "ran",
+    "past_participle": "run",
+    "translation": "courir"
+  },
+  {
+    "base": "say",
+    "preterit": "said",
+    "past_participle": "said",
+    "translation": "dire"
+  },
+  {
+    "base": "see",
+    "preterit": "saw",
+    "past_participle": "seen",
+    "translation": "voir"
+  },
+  {
+    "base": "sell",
+    "preterit": "sold",
+    "past_participle": "sold",
+    "translation": "vendre"
+  },
+  {
+    "base": "send",
+    "preterit": "sent",
+    "past_participle": "sent",
+    "translation": "envoyer"
+  },
+  {
+    "base": "set",
+    "preterit": "set",
+    "past_participle": "set",
+    "translation": "mettre, fixer"
+  },
+  {
+    "base": "shake",
+    "preterit": "shook",
+    "past_participle": "shaken",
+    "translation": "secouer"
+  },
+  {
+    "base": "shine",
+    "preterit": "shone",
+    "past_participle": "shone",
+    "translation": "briller"
+  },
+  {
+    "base": "shoot",
+    "preterit": "shot",
+    "past_participle": "shot",
+    "translation": "tirer"
+  },
+  {
+    "base": "show",
+    "preterit": "showed",
+    "past_participle": "shown",
+    "translation": "montrer"
+  },
+  {
+    "base": "shut",
+    "preterit": "shut",
+    "past_participle": "shut",
+    "translation": "fermer"
+  },
+  {
+    "base": "sing",
+    "preterit": "sang",
+    "past_participle": "sung",
+    "translation": "chanter"
+  },
+  {
+    "base": "sit",
+    "preterit": "sat",
+    "past_participle": "sat",
+    "translation": "s’asseoir"
+  },
+  {
+    "base": "sleep",
+    "preterit": "slept",
+    "past_participle": "slept",
+    "translation": "dormir"
+  },
+  {
+    "base": "slide",
+    "preterit": "slid",
+    "past_participle": "slid",
+    "translation": "glisser"
+  },
+  {
+    "base": "speak",
+    "preterit": "spoke",
+    "past_participle": "spoken",
+    "translation": "parler"
+  },
+  {
+    "base": "spend",
+    "preterit": "spent",
+    "past_participle": "spent",
+    "translation": "dépenser, passer (temps)"
+  },
+  {
+    "base": "stand",
+    "preterit": "stood",
+    "past_participle": "stood",
+    "translation": "se tenir debout"
+  },
+  {
+    "base": "steal",
+    "preterit": "stole",
+    "past_participle": "stolen",
+    "translation": "voler (quelque chose)"
+  },
+  {
+    "base": "stick",
+    "preterit": "stuck",
+    "past_participle": "stuck",
+    "translation": "coller"
+  },
+  {
+    "base": "strike",
+    "preterit": "struck",
+    "past_participle": "struck",
+    "translation": "frapper"
+  },
+  {
+    "base": "swim",
+    "preterit": "swam",
+    "past_participle": "swum",
+    "translation": "nager"
+  },
+  {
+    "base": "take",
+    "preterit": "took",
+    "past_participle": "taken",
+    "translation": "prendre"
+  },
+  {
+    "base": "teach",
+    "preterit": "taught",
+    "past_participle": "taught",
+    "translation": "enseigner"
+  },
+  {
+    "base": "tell",
+    "preterit": "told",
+    "past_participle": "told",
+    "translation": "dire, raconter"
+  },
+  {
+    "base": "think",
+    "preterit": "thought",
+    "past_participle": "thought",
+    "translation": "penser"
+  },
+  {
+    "base": "throw",
+    "preterit": "threw",
+    "past_participle": "thrown",
+    "translation": "jeter"
+  },
+  {
+    "base": "understand",
+    "preterit": "understood",
+    "past_participle": "understood",
+    "translation": "comprendre"
+  },
+  {
+    "base": "wake",
+    "preterit": "woke",
+    "past_participle": "woken",
+    "translation": "réveiller"
+  },
+  {
+    "base": "wear",
+    "preterit": "wore",
+    "past_participle": "worn",
+    "translation": "porter (vêtements)"
+  },
+  {
+    "base": "win",
+    "preterit": "won",
+    "past_participle": "won",
+    "translation": "gagner"
+  },
+  {
+    "base": "write",
+    "preterit": "wrote",
+    "past_participle": "written",
+    "translation": "écrire"
+  }
+]
