@@ -18,11 +18,7 @@ class ConversationViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        let token = KeychainHelper.shared.read(
-            service: "auth",
-            account: "token"
-        )
-
+        let token = AuthHelper.getAuthToken()
         if token == nil {
             errorMessage = "Il semblerait que vous ne soyez pas connecter."
             isLoading = false

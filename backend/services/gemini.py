@@ -2,11 +2,10 @@ from google import genai
 from google.genai import types, Client
 import os
 
-from google.genai.types import GenerateContentResponse
+from google.genai.types import GenerateContentResponse, Content, Part
 
 from model.character_model import CharacterModel
 from model.message_model import MessageModel
-
 from typing import List
 
 
@@ -52,17 +51,23 @@ class Gemini:
         chat_session = self.client.chats.create(
             model=self.DEFAULT_MODEL,
             config=types.GenerateContentConfig(system_instruction=self.system_prompt),
-            history=self.format_message(latest_message)
+            history=self.format_message_for_gemini(latest_message)
         )
         return chat_session.send_message(message)
 
     @staticmethod
-    def format_message(latest_message: List[MessageModel]):
-        res = []
-        for msg in latest_message:
-            res.append({
-                "role": "model" if msg.sender == "ai" else "user",
-                "parts": [msg.message]
-            })
+    def format_message_for_gemini(latest_message: List[MessageModel]):
+        if len(latest_message) == 0:
+            return []
 
-        return res
+        contents = []
+        start_idx = 0
+        if latest_message[0].sender == "ai":
+            start_idx = 1
+
+        for i in range(start_idx, len(latest_message)):
+            msg = latest_message[i]
+            role = "model" if msg.sender == "ai" else "user"
+            contents.append(Content(role=role, parts=[Part.from_text(text=msg.message)]))
+
+        return contents

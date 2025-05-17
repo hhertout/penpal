@@ -6,12 +6,13 @@ from datetime import datetime
 
 class MessageModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    conv_id: PyObjectId = Field(default_factory=PyObjectId, alias="conv_id")
+    conv_id: str
     ts: int = Field(default_factory=lambda: int(datetime.now().timestamp()))
     sender: Literal["ai", "user"]
     message: str
     correction: Optional[str] = None
     token_count: Optional[int] = None
+    error: Optional[bool] = None
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -17,7 +17,9 @@ struct ConversationwView: View {
                 Text("Erreur : \(error)")
             } else if viewModel.conversations.count > 0 {
                 List(viewModel.conversations) { conv in
-                    Text(conv.name)
+                    NavigationLink(destination: MessagesView(conversationId: conv._id, name: conv.name)) {
+                        Text(conv.name)
+                    }
                 }
             } else {
                 NoConversationView()

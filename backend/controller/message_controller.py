@@ -8,6 +8,7 @@ from repository import conv_repository, message_repository
 from services.llm import Llm
 from model.character_model import CharacterModel
 from services.gemini import Gemini
+from datetime import datetime
 
 router = APIRouter()
 
@@ -25,10 +26,14 @@ def get_message(conv_id: str, authorization: Annotated[str | None, Header()] = N
     if conv_id is None:
         raise HTTPException(status_code=400, detail="conv id is not set")
 
-    return message_repository.get_messages(conv_id)
+    messages = message_repository.get_messages(conv_id)
+    messages.reverse()
+
+    return [msg.model_dump() for msg in messages]
 
 @router.post("/message")
 def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Header()] = None):
+    ts_now = int(datetime.now().timestamp())
     claims = get_user_from_token(authorization)
     if not claims:
         logger.info("Invalid token submit, request aborted")
@@ -57,7 +62,8 @@ def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Hea
 
         # save the user prompt
         user_prompt = MessageModel(
-                conv_id=conv.id,
+                ts=ts_now,
+                conv_id=args.conv_id,
                 sender="user",
                 message=args.message,
                 correction=correction
@@ -67,7 +73,7 @@ def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Hea
 
         # save the AI response
         ai_response = MessageModel(
-                conv_id=conv.id,
+                conv_id=args.conv_id,
                 sender="ai",
                 message=response,
                 token_count=candidate.usage_metadata.total_token_count,
