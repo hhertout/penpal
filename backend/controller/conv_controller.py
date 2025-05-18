@@ -47,7 +47,6 @@ def create_conv(args: NewConvArgs, authorization: Annotated[str | None, Header()
         )
 
         new_conv = conv_repository.create_conv(conv)
-        print(new_conv)
 
         return {"status": "success", "id": str(new_conv.inserted_id)}
     except HTTPException as e:
