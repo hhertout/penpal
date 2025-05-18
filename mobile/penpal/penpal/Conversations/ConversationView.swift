@@ -16,11 +16,7 @@ struct ConversationwView: View {
             } else if let error = viewModel.errorMessage {
                 Text("Erreur : \(error)")
             } else if viewModel.conversations.count > 0 {
-                List(viewModel.conversations) { conv in
-                    NavigationLink(destination: MessagesView(conversationId: conv._id, name: conv.name)) {
-                        Text(conv.name)
-                    }
-                }
+                ConversationListView(conversations: viewModel.conversations)
             } else {
                 NoConversationView()
             }
@@ -43,7 +39,12 @@ struct ConversationwView: View {
             NavigationStack {
                 AddConversationView(
                     onCancel: { showAddConversationSheet = false },
-                    onCreate: { showAddConversationSheet = false }
+                    onCreate: {
+                        Task {
+                            await viewModel.getConversations()
+                        }
+                        showAddConversationSheet = false
+                    }
                 )
             }
         }

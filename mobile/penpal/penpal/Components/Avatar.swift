@@ -8,6 +8,7 @@ import SwiftUI
 struct Avatar: View {
     var name: String
     var diameter: CGFloat = 50
+    var color: Color = Color.gray
 
     var body: some View {
         let initial = String(name.prefix(1)).uppercased()
@@ -16,6 +17,6 @@ struct Avatar: View {
             .font(.headline)
             .foregroundColor(.white)
             .frame(width: diameter, height: diameter)
-            .background(Circle().fill(Color.gray))
+            .background(Circle().fill(color))
     }
 }
