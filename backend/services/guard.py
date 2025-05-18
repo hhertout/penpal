@@ -8,12 +8,13 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 
 class TokenClaims(BaseModel):
+    uid: str
     sub: str
     exp: int
 
-def generate_token(username: str) -> str:
+def generate_token(uid: str, username: str) -> str:
     token_exp = datetime.now() + timedelta(days=10)
-    claims = TokenClaims(sub=username, exp=int(token_exp.timestamp()))
+    claims = TokenClaims(sub=username, uid=uid, exp=int(token_exp.timestamp()))
     return jwt.encode(claims.model_dump(), key=os.getenv("JWT_PASSPHRASE"), algorithm="HS256")
 
 def get_user_from_token(token: str) -> Optional[TokenClaims]:

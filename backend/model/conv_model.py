@@ -2,10 +2,17 @@ from pydantic import BaseModel, Field
 from pydantic import ConfigDict
 from model.object_id import PyObjectId
 
+class Character(BaseModel):
+    name: str
+    gender: str
+    city: str
+    country: str
+
 class ConvModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    user_id: str
     name: str
-    username: str
+    character: Character
 
     model_config = ConfigDict(
         populate_by_name=True,

@@ -62,7 +62,7 @@ def login(args: LoginArgs):
         raise HTTPException(status_code=400, detail="Invalid credentials")
 
     # JWT gen
-    token = guard.generate_token(args.username)
+    token = guard.generate_token(username=args.username, uid=str(user.id))
     return {"token": token, "username": args.username}
 
 @router.patch("/user/nickname")

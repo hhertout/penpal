@@ -4,10 +4,17 @@ from typing import Annotated
 from fastapi import Header, APIRouter, HTTPException, status
 from config.logger import logger
 from repository import conv_repository
-from model.conv_model import ConvModel
+from model.conv_model import ConvModel, Character
+
+class NewCharacter(BaseModel):
+    name: str
+    gender: str
+    city: str
+    country: str
 
 class NewConvArgs(BaseModel):
     name: str
+    character: NewCharacter
 
 router = APIRouter()
 
@@ -22,10 +29,23 @@ def create_conv(args: NewConvArgs, authorization: Annotated[str | None, Header()
         raise HTTPException(status_code=400, detail="Name of the conversation is required")
 
     try:
-        res = conv_repository.get_conversation_by_name(args.name)
+        res = conv_repository.get_conversation_by_name(args.name, user_id=claims.uid)
         if res:
             raise HTTPException(status_code=400, detail="Conversation already exist")
-        conv = ConvModel(username=claims.sub, name=args.name)
+
+        char = Character(
+            name=args.character.name,
+            gender=args.character.gender,
+            city=args.character.city,
+            country=args.character.country
+        )
+
+        conv = ConvModel(
+            name=args.name,
+            character=char,
+            user_id=claims.uid
+        )
+
         new_conv = conv_repository.create_conv(conv)
         print(new_conv)
 
@@ -44,7 +64,7 @@ def get_all_conv(authorization: Annotated[str | None, Header()] = None):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
-        return conv_repository.get_all_conversation(claims.sub)
+        return conv_repository.get_all_conversation(claims.uid)
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -62,7 +82,7 @@ def get_conv_by_id(conv_id: str, authorization: Annotated[str | None, Header()] 
         raise HTTPException(status_code=400, detail="conv id is not set")
 
     try:
-        conv = conv_repository.get_conversation_by_id(conv_id)
+        conv = conv_repository.get_conversation_by_id(_id=conv_id, user_id=claims.uid)
         if conv is None:
             raise HTTPException(status_code=404, detail="Conversation not found")
     except HTTPException as e:
@@ -81,7 +101,7 @@ def delete_conv(conv_id: str, authorization: Annotated[str | None, Header()] = N
     if conv_id is None:
         raise HTTPException(status_code=400, detail="conv id is not set")
 
-    conv = conv_repository.get_conversation_by_id(conv_id)
+    conv = conv_repository.get_conversation_by_id(_id=conv_id, user_id=claims.uid)
     if conv is None:
         raise HTTPException(status_code=404, detail="Conversation does not exist")
 

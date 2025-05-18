@@ -40,13 +40,18 @@ def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Hea
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
-        conv = conv_repository.get_conversation_by_id(args.conv_id)
+        conv = conv_repository.get_conversation_by_id(_id=args.conv_id, user_id=claims.uid)
         if conv is None:
             raise HTTPException(status_code=404, detail="Conversation not found")
         logger.debug(f"conversation {conv.name} found; id={str(conv.id)}")
 
         latest_msg = message_repository.get_latest_message(conv_id=args.conv_id)
-        char = CharacterModel(name="Tony", city="New York")
+        char = CharacterModel(
+            name=conv.character.name,
+            city=conv.character.city,
+            gender=conv.character.gender,
+            country=conv.character.country
+        )
 
         llm = Llm(char)
         gemini = Gemini(char)
