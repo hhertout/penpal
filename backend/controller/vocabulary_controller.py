@@ -38,7 +38,7 @@ def get_daily_vocabulary(authorization: Annotated[str | None, Header()] = None):
     if cache is not None:
         return json.loads(cache)
 
-    llm = Llm(CharacterModel(name="vocab", city="None"))
+    llm = Llm(CharacterModel(name="vocab", city="None", country="None"))
     res = llm.prompt_for_daily_vocabulary()
 
     cleaned = re.sub(r"^```json\s*|\s*```$", "", res, flags=re.MULTILINE)

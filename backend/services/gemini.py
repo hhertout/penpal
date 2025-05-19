@@ -48,6 +48,7 @@ class Gemini:
         )
 
     def chat(self, message:str, latest_message: List[MessageModel]) -> GenerateContentResponse:
+        print(latest_message)
         chat_session = self.client.chats.create(
             model=self.DEFAULT_MODEL,
             config=types.GenerateContentConfig(system_instruction=self.system_prompt),
@@ -70,4 +71,4 @@ class Gemini:
             role = "model" if msg.sender == "ai" else "user"
             contents.append(Content(role=role, parts=[Part.from_text(text=msg.message)]))
 
-        return contents
+        return contents.reverse()

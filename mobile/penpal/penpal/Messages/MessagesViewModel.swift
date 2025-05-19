@@ -143,7 +143,7 @@ class MessagesViewModel: ObservableObject {
 
     func addMessagePredicate() {
         let msg = MessageModel(
-            id: "\(Int.random(in: 0..<100))",
+            id: "\(Int.random(in: 0..<1000000000))",
             message: sendMessageModel.message,
             sender: "user",
             ts: Date().timeIntervalSince1970,
