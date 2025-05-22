@@ -57,12 +57,14 @@ def send_message(args: SendMessageArgs, authorization: Annotated[str | None, Hea
         gemini = Gemini(char)
 
         # gen response
-        candidate = gemini.chat(args.message, latest_message=latest_msg)
+        candidate = gemini.chat(args.message, kind="chat", latest_message=latest_msg)
         response = candidate.text
         logger.debug("AI response received")
 
         # gen correction
-        correction = llm.prompt_for_correction(args.message)
+        candidate_res = gemini.chat(args.message, kind="correction", latest_message=latest_msg)
+        correction = candidate_res.text
+        #correction = llm.prompt_for_correction(args.message)
         logger.debug("AI correction received")
 
         # save the user prompt

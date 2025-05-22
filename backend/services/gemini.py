@@ -6,13 +6,14 @@ from google.genai.types import GenerateContentResponse, Content, Part
 
 from model.character_model import CharacterModel
 from model.message_model import MessageModel
-from typing import List
+from typing import List, Literal
 
 
 class Gemini:
     DEFAULT_MODEL: str = "gemini-2.0-flash"
     client: Client
     system_prompt: str
+    correction_system_prompt: str
     character: CharacterModel
     user_country: str
 
@@ -39,6 +40,17 @@ class Gemini:
             "Make the chat feel friendly, simple, and real. "
         )
 
+        self.correction_system_prompt = (
+            "You are an English language corrector. You speak french by default. "
+            "When the user sends a message, identify any grammar, spelling, or phrasing mistakes that would make the sentence unclear or incorrect. "
+            "Explain what was wrong in a simple, friendly way, and provide a corrected version of the sentence using natural, everyday English. "
+            "Use standard American English, but be tolerant of common informal language, abbreviations, or slang (e.g., 'NYC', 'gonna', 'wanna', 'u') as long as they make sense in context. "
+            "Do not overcorrect or make the sentence overly formal. "
+            "Keep your tone helpful and supportive. The current region is the USA. "
+            "NEVER use phrases like 'How can I assist you'. "
+            "NEVER offer help unless the user clearly asks for it. "
+        )
+
     def prompt(self, message:str) -> GenerateContentResponse:
         return self.client.models.generate_content(
             model=self.DEFAULT_MODEL,
@@ -47,11 +59,13 @@ class Gemini:
             contents=message
         )
 
-    def chat(self, message:str, latest_message: List[MessageModel]) -> GenerateContentResponse:
+    def chat(self, message:str, kind: Literal["chat", "correction"], latest_message: List[MessageModel] = None) -> GenerateContentResponse:
         print(latest_message)
         chat_session = self.client.chats.create(
             model=self.DEFAULT_MODEL,
-            config=types.GenerateContentConfig(system_instruction=self.system_prompt),
+            config=types.GenerateContentConfig(
+                system_instruction=self.system_prompt if kind == "chat" else self.correction_system_prompt
+            ),
             history=self.format_message_for_gemini(latest_message)
         )
         return chat_session.send_message(message)
