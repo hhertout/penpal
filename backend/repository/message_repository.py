@@ -1,4 +1,3 @@
-from bson import ObjectId
 from pymongo.results import InsertOneResult
 from config.mongo import mongodb
 from model.message_model import MessageModel
