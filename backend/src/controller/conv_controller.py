@@ -1,10 +1,10 @@
 from pydantic import BaseModel
-from services.guard import get_user_from_token
+from src.services.guard import get_user_from_token
 from typing import Annotated
 from fastapi import Header, APIRouter, HTTPException, status
-from config.logger import logger
-from repository import conv_repository
-from model.conv_model import ConvModel, Character
+from src.config.logger import logger
+from src.repository import conv_repository
+from src.model.conv_model import ConvModel, Character
 
 class NewCharacter(BaseModel):
     name: str

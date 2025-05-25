@@ -2,8 +2,8 @@ from typing import Optional
 
 from bson import ObjectId
 from pymongo.results import InsertOneResult, DeleteResult
-from config.mongo import mongodb
-from model.conv_model import ConvModel
+from src.config.mongo import mongodb
+from src.model.conv_model import ConvModel
 from typing import List
 
 def create_conv(conv: ConvModel) -> InsertOneResult:

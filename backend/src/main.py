@@ -2,8 +2,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from fastapi import FastAPI
-from controller import router as controller_router
-from repository.user_repository import insert_admin_user
+from src.controller import router as controller_router
+from src.repository.user_repository import insert_admin_user
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 # import instrumentation
 

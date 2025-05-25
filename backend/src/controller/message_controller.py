@@ -1,13 +1,14 @@
 from typing import Annotated
-from fastapi import Header, APIRouter, HTTPException, status
+from fastapi import Header, APIRouter, HTTPException
 from pydantic import BaseModel
-from config.logger import logger
-from model.message_model import MessageModel
-from services.guard import get_user_from_token
-from repository import conv_repository, message_repository
-from services.llm import Llm
-from model.character_model import CharacterModel
-from services.gemini import Gemini
+from src.config.logger import logger
+from src.model.message_model import MessageModel
+from src.services.guard import get_user_from_token
+from src.repository import conv_repository
+from src.repository import message_repository
+from src.services.llm import Llm
+from src.model.character_model import CharacterModel
+from src.services.gemini import Gemini
 from datetime import datetime
 
 router = APIRouter()

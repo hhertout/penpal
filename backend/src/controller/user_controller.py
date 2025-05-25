@@ -3,12 +3,13 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Header
 from pydantic import BaseModel
 
-from config.logger import logger
+from src.config.logger import logger
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
-from repository.user_repository import get_user_by_name, update_nickname
-from services.rate_limiter import set_rate, is_rate_limited
-from services import guard
+from src.repository.user_repository import get_user_by_name, update_nickname
+from src.services.rate_limiter import set_rate, is_rate_limited
+from src.services import guard
+
 
 class LoginArgs(BaseModel):
     username: str

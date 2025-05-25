@@ -1,7 +1,7 @@
 from typing import Optional
 
-from config.redis import redis_rl
-from config.logger import logger
+from src.config.redis import redis_rl
+from src.config.logger import logger
 
 DEFAULT_EXPIRATION = 60 * 60  # 1h
 MAX_ATTEMPT = 5

@@ -18,8 +18,8 @@ RUN poetry install
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-COPY . .
+COPY ./src /app/src
 
 EXPOSE 8000
 
-CMD ["poetry", "run", "fastapi", "dev",  "main.py", "--host=0.0.0.0"]
+CMD ["poetry", "run", "fastapi", "dev",  "src/main.py", "--host=0.0.0.0"]

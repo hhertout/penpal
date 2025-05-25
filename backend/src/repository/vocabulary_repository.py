@@ -1,11 +1,9 @@
-import json
-
 from pymongo.results import InsertManyResult
 
-from config.mongo import mongodb
-from model.daily_vocabulary_model import DailyVocabularyModel
+from src.config.mongo import mongodb
+from src.model.daily_vocabulary_model import DailyVocabularyModel
 from typing import List
-from config.redis import redis_daily
+from src.config.redis import redis_daily
 
 DAILY_EXPIRATION = 60 * 60 * 24  # 1d
 

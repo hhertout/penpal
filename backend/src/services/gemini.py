@@ -4,8 +4,8 @@ import os
 
 from google.genai.types import GenerateContentResponse, Content, Part
 
-from model.character_model import CharacterModel
-from model.message_model import MessageModel
+from src.model.character_model import CharacterModel
+from src.model.message_model import MessageModel
 from typing import List, Literal
 
 

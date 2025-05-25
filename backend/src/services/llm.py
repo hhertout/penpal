@@ -1,11 +1,11 @@
 import os
-from config.logger import logger
+from src.config.logger import logger
 import requests
 import json
 
-from model.message_model import MessageModel
+from src.model.message_model import MessageModel
 from typing import List
-from model.character_model import CharacterModel
+from src.model.character_model import CharacterModel
 
 class Llm:
     DEFAULT_MODEL = "phi4-mini"

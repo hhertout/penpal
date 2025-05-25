@@ -3,10 +3,10 @@ from typing import Optional
 
 from pymongo.results import UpdateResult
 
-from config.logger import logger
-from config.mongo import mongodb
+from src.config.logger import logger
+from src.config.mongo import mongodb
 from argon2 import PasswordHasher
-from model.user_model import UserModel
+from src.model.user_model import UserModel
 
 def get_user_by_name(username: str) -> Optional[UserModel]:
     user_data = mongodb.users.find_one({"username": username})

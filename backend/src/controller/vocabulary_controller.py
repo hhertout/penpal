@@ -1,15 +1,13 @@
-import json
-
-from model.character_model import CharacterModel
-from model.daily_vocabulary_model import DailyVocabularyModel
-from services.guard import get_user_from_token
+from src.model.character_model import CharacterModel
+from src.model.daily_vocabulary_model import DailyVocabularyModel
+from src.services.guard import get_user_from_token
 from typing import Annotated
 from fastapi import Header, APIRouter, HTTPException, status
-from config.logger import logger
-from services.llm import Llm
+from src.config.logger import logger
+from src.services.llm import Llm
 import json
 import re
-from repository import vocabulary_repository
+from src.repository import vocabulary_repository
 
 router = APIRouter()
 
@@ -21,7 +19,7 @@ def get_irregular_verbs(authorization: Annotated[str | None, Header()] = None):
         raise HTTPException(status_code=401, detail="Unauthorized")
 
     try:
-        with open("data/verbs.json", "r", encoding="utf-8") as f:
+        with open(file="src/data/verbs.json", mode="r", encoding="utf-8") as f:
             data = json.load(f)
         return data
     except Exception as e:

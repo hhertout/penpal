@@ -1,6 +1,6 @@
 from pymongo.results import InsertOneResult
-from config.mongo import mongodb
-from model.message_model import MessageModel
+from src.config.mongo import mongodb
+from src.model.message_model import MessageModel
 from typing import List
 
 def insert_message(message: MessageModel) -> InsertOneResult:

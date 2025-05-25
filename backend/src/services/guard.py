@@ -1,7 +1,6 @@
-import json
 import os
 from typing import Optional
-from config.logger import logger
+from src.config.logger import logger
 
 import jwt
 from pydantic import BaseModel

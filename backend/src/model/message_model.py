@@ -1,7 +1,7 @@
 from typing import Literal, Optional
 from pydantic import BaseModel, Field
 from pydantic import ConfigDict
-from model.object_id import PyObjectId
+from src.model.object_id import PyObjectId
 from datetime import datetime
 
 class MessageModel(BaseModel):
