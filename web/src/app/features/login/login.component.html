@@ -1,1 +1,53 @@
-<p>login works!</p>
+<div class="h-screen w-screen flex justify-center items-center">
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Connexion</mat-card-title>
+      <mat-card-subtitle>Connectez vous à Penpal !</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="my-3">
+      <div class="flex flex-col justify-center items-start gap-4">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <mat-form-field class="w-full">
+            <mat-label for="username">Identifiant</mat-label>
+            <input
+              id="username"
+              matInput
+              [type]="'text'"
+              required="true"
+              formControlName="username"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="w-full">
+            <mat-label for="password">Mot de passe</mat-label>
+            <input
+              id="password"
+              matInput
+              [type]="'password'"
+              required="true"
+              formControlName="password"
+            />
+          </mat-form-field>
+
+          @if(error()) {
+          <div>
+            <mat-error class="text-red-500">
+              {{ error() }}
+            </mat-error>
+          </div>
+          }
+
+          <button
+            matButton="filled"
+            type="submit"
+            [disabled]="isSubmitting()"
+            class="my-3"
+          >
+            Se connecter
+            <mat-icon class="ml-2">login</mat-icon>
+          </button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
