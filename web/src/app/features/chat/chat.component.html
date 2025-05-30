@@ -4,6 +4,16 @@
     <app-loader [diameter]="48" />
   </div>
   } @else {
-  <div>Toto</div>
+  <div>
+    <app-sidebar [activeConversation]="activeConversation"></app-sidebar>
+    <section class="main-content">
+      <div style="height: 88%">
+        <app-chatbox [activeConversation]="activeConversation"></app-chatbox>
+      </div>
+      <div style="height: 12%">
+        <app-textbar [activeConversation]="activeConversation"></app-textbar>
+      </div>
+    </section>
+  </div>
   }
 </div>

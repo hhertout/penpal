@@ -1,0 +1,30 @@
+.nav-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #f8f9fa;
+  border-right: 1px solid #dee2e6;
+}
+
+.nav-sidebar .sidebar-content {
+}
+
+.nav-sidebar .sidebar-header {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 1rem;
+  padding-top: 2rem;
+}
+
+.nav-sidebar .sidebar-body {
+  display: flex;
+  flex-direction: column;
+}

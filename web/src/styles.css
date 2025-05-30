@@ -401,3 +401,7 @@ h6 {
 .gap-9 {
   gap: 2.25rem !important; /* 36px */
 }
+
+.cursor-pointer {
+  cursor: pointer !important;
+}

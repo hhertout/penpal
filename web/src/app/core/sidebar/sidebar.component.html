@@ -1,0 +1,41 @@
+<aside class="nav-sidebar">
+  <div class="sidebar-content">
+    <section class="sidebar-header">
+      <mat-icon
+        aria-hidden="false"
+        aria-label="chat icon"
+        fontIcon="chat"
+      ></mat-icon>
+      <span>Conversation</span>
+    </section>
+    <section class="sidebar-body">
+      <mat-list role="list">
+        @for (item of conversations; track item._id) {
+        <mat-list-item
+          role="listitem"
+          class="conversation-item"
+          [style]="
+            activeConversation() == item._id ? 'background-color: #f0f0f0;' : ''
+          "
+        >
+          <div
+            (click)="onConversationChange(item._id)"
+            class="w-full cursor-pointer flex items-center justify-between"
+          >
+            <div class="flex items-center gap-2">
+              <span>{{ item.character.name }}</span>
+            </div>
+            <mat-icon fontIcon="chevron_right" />
+          </div>
+        </mat-list-item>
+        } @empty {
+        <mat-list-item role="listitem">Aucune conversation</mat-list-item>
+        <button matButton="filled">
+          <span>Nouvelle</span>
+          <mat-icon fontIcon="add"></mat-icon>
+        </button>
+        }
+      </mat-list>
+    </section>
+  </div>
+</aside>

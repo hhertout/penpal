@@ -1,0 +1,10 @@
+@if (activeConversation()) {
+<div class="flex items-start justify-center w-full h-full gap-2">
+  <mat-form-field class="w-full">
+    <input id="message" matInput placeholder="Enter your message" value="" />
+  </mat-form-field>
+  <button matFab aria-label="Example icon button with a delete icon">
+    <mat-icon>send</mat-icon>
+  </button>
+</div>
+}
