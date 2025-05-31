@@ -37,9 +37,7 @@ export class SidebarComponent implements OnChanges, OnInit {
     }
   }
 
-  ngOnChanges() {
-    console.log('Sidebar component has changed');
-  }
+  ngOnChanges() {}
 
   onConversationChange(id: string) {
     this.activeConversation.set(id);

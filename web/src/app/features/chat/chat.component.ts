@@ -1,4 +1,11 @@
-import { Component, inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  inject,
+  OnInit,
+  PLATFORM_ID,
+  signal,
+} from '@angular/core';
 import { LoaderComponent } from '../../core/loader/loader.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
@@ -6,6 +13,9 @@ import { SidebarComponent } from '../../core/sidebar/sidebar.component';
 import { ChatboxComponent } from '../../core/chatbox/chatbox.component';
 import { TextbarComponent } from '../../core/textbar/textbar.component';
 import { AuthenticationService } from '../../shared/auth.service';
+import ChatService from '../../shared/chat.service';
+import { Message } from '../../shared/messages';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-chat',
@@ -16,6 +26,7 @@ import { AuthenticationService } from '../../shared/auth.service';
     SidebarComponent,
     ChatboxComponent,
     TextbarComponent,
+    ReactiveFormsModule,
   ],
 })
 export class ChatComponent implements OnInit {
@@ -23,9 +34,32 @@ export class ChatComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthenticationService);
 
-  isLoading: boolean = false;
+  public isLoading = false;
 
-  activeConversation = signal<string | null>(null);
+  public activeConversation = signal<string | null>(null);
+
+  private chatService = inject(ChatService);
+
+  public isMessagesLoading = signal(false);
+  public messages = signal<Array<Message>>([]);
+
+  constructor() {
+    effect(async () => {
+      this.isMessagesLoading.set(true);
+      try {
+        if (!this.activeConversation()) return;
+
+        const messages = await this.chatService.getMessages(
+          this.activeConversation()!
+        );
+        this.messages.set(messages);
+      } catch (err) {
+        console.error('Error fetching messages:', err);
+      } finally {
+        this.isMessagesLoading.set(false);
+      }
+    });
+  }
 
   async ngOnInit() {
     this.isLoading = true;

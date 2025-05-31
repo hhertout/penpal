@@ -5,6 +5,33 @@
   padding-block: 24px;
 }
 
+.chat-container {
+  overflow: hidden;
+  max-height: 80vh;
+  width: 100%;
+  margin-block: 2rem;
+}
+
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  max-height: 80vh;
+  width: 100%;
+  position: relative;
+  gap: 1rem;
+
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none; /* Masque la scrollbar */
+  }
+
+  scrollbar-width: none;
+
+  -ms-overflow-style: none;
+}
+
 .chat-bubble {
   max-width: 70%;
   padding: 10px 14px;

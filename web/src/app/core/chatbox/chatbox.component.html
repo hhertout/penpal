@@ -1,7 +1,31 @@
+@if (!activeConversation()) {
 <div class="flex flex-col h-full justify-center items-center">
   <mat-icon fontIcon="forum" class="chat-icon" />
-  <div>
-    Choisissez une conversation pour commencer à discuter avec votre personnage.
-  </div>
+  Choisissez une conversation pour commencer à discuter avec votre personnage.
   <div>Si vous n'avez pas de conversation, créez-en une !</div>
 </div>
+} @else {
+<div>
+  <div class="chat-container">
+    <div #chatWrapper id="chat-wrapper" class="chat-wrapper">
+      @if(isLoading()) {
+      <app-loader />
+      } @else { @for (message of messages(); track message.id) { @if
+      (message.sender === 'user') {
+      <div class="chat-bubble sender">
+        {{ message.message }}
+      </div>
+      } @else {
+      <div class="chat-bubble receiver">
+        {{ message.message }}
+      </div>
+      } }@empty {
+      <div class="flex flex-col h-full justify-center items-center">
+        <mat-icon fontIcon="forum" class="chat-icon" />
+        Envoyez un message pour commencer !
+      </div>
+      } }
+    </div>
+  </div>
+</div>
+}

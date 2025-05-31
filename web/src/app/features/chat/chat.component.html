@@ -1,4 +1,4 @@
-<div class="min-w-screen min-h-screen">
+<div class="w-screen h-screen">
   @if(isLoading) {
   <div class="flex justify-center items-center min-h-screen">
     <app-loader [diameter]="48" />
@@ -7,11 +7,16 @@
   <div>
     <app-sidebar [activeConversation]="activeConversation"></app-sidebar>
     <section class="main-content">
-      <div style="height: 88%">
-        <app-chatbox [activeConversation]="activeConversation"></app-chatbox>
-      </div>
-      <div style="height: 12%">
-        <app-textbar [activeConversation]="activeConversation"></app-textbar>
+      <div class="content-wrapper">
+        <app-chatbox
+          [activeConversation]="activeConversation"
+          [isLoading]="isMessagesLoading"
+          [messages]="messages"
+        ></app-chatbox>
+        <app-textbar
+          [activeConversation]="activeConversation"
+          [messages]="messages"
+        ></app-textbar>
       </div>
     </section>
   </div>

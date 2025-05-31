@@ -10,7 +10,6 @@ export default class ChatService {
   BACKEND_URL = 'http://localhost:8000';
 
   async getConversations() {
-    console.log('Fetching conversations');
     const response = await fetch(`${this.BACKEND_URL}/api/v1/conv`, {
       method: 'GET',
       headers: {
@@ -36,7 +35,6 @@ export default class ChatService {
   }
 
   async getMessages(convId: string) {
-    console.log('Fetching messages');
     const response = await fetch(
       `${this.BACKEND_URL}/api/v1/messages/${convId}`,
       {
