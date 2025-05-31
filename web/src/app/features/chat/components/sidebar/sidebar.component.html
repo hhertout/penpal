@@ -1,16 +1,21 @@
 <aside class="nav-sidebar">
   <div class="sidebar-content">
     <section class="sidebar-header">
-      <mat-icon
-        aria-hidden="false"
-        aria-label="chat icon"
-        fontIcon="chat"
-      ></mat-icon>
-      <span>Conversation</span>
+      <div class="flex items-center gap-2">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="chat icon"
+          fontIcon="chat"
+        ></mat-icon>
+        <span>Chats</span>
+      </div>
+      <button matMiniFab color="primary" (click)="openDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
     </section>
     <section class="sidebar-body">
       <mat-list role="list">
-        @for (item of conversations; track item._id) {
+        @for (item of conversations(); track item._id) {
         <mat-list-item
           role="listitem"
           class="conversation-item"

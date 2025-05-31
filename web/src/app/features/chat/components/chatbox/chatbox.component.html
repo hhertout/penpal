@@ -12,17 +12,32 @@
       <app-loader />
       } @else { @for (message of messages(); track message.id) { @if
       (message.sender === 'user') {
-      <div class="chat-bubble sender">
-        {{ message.message }}
+      <div class="flex justify-end items-center h-full">
+        @if(message.correction) {
+        <button
+          matIconButton
+          color="primary"
+          (click)="openDialog(message.correction)"
+        >
+          <mat-icon>school</mat-icon>
+        </button>
+        }
+        <div class="chat-bubble sender">
+          {{ message.message }}
+        </div>
       </div>
       } @else {
       <div class="chat-bubble receiver">
         {{ message.message }}
       </div>
       } }@empty {
-      <div class="flex flex-col h-full justify-center items-center">
+      <div class="flex flex-col w-full h-full justify-center items-center">
         <mat-icon fontIcon="forum" class="chat-icon" />
         Envoyez un message pour commencer !
+      </div>
+      } @if(isGeneratingAnswer()) {
+      <div class="flex justify-end chat-subtitle">
+        {{ characterName() }} is writting...
       </div>
       } }
     </div>

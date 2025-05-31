@@ -4,6 +4,7 @@ import {
   CreateConversationRequest,
   CreateConversationResponse,
 } from './conversations';
+import { CreateMessageRequest, CreateMessageResponse } from './messages';
 
 @Injectable({ providedIn: 'root' })
 export default class ChatService {
@@ -30,8 +31,20 @@ export default class ChatService {
   async createConversation(
     data: CreateConversationRequest
   ): Promise<CreateConversationResponse> {
-    // todo
-    return {} as CreateConversationResponse;
+    const response = await fetch(`${this.BACKEND_URL}/api/v1/conv/new`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to create conversation');
+    }
+    const res = await response.json();
+    return res as CreateConversationResponse;
   }
 
   async getMessages(convId: string) {
@@ -53,5 +66,26 @@ export default class ChatService {
     const data = await response.json();
 
     return data;
+  }
+
+  async postMessage(
+    data: CreateMessageRequest
+  ): Promise<CreateMessageResponse> {
+    const response = await fetch(`${this.BACKEND_URL}/api/v1/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to post message');
+    }
+
+    const res = await response.json();
+
+    return res;
   }
 }

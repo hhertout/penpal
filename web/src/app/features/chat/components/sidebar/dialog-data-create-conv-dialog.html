@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>
+  <div class="flex items-center gap-2">
+    <mat-icon color="primary" fontIcon="task_alt" />
+    <span>Ajouter une nouvelle conversation</span>
+  </div>
+</h2>
+<mat-dialog-content>
+  <div class="py-4">
+    <form [formGroup]="createConvForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="w-full">
+        <mat-label for="name">Nom</mat-label>
+        <input
+          id="name"
+          matInput
+          [type]="'text'"
+          required
+          formControlName="name"
+        />
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Sexe</mat-label>
+        <mat-select required formControlName="gender">
+          @for (gender of [{label: "Homme", value: "men"},{label: "Femme",
+          value: "woman"}]; track gender.value) {
+          <mat-option [value]="gender.value">{{gender.label}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Pays</mat-label>
+        <mat-select
+          formControlName="country"
+          (selectionChange)="onCountryChange()"
+          required
+        >
+          @for (country of contryList | keyvalue; track country.key) {
+          <mat-option [value]="country.key">{{ country.key }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>Ville</mat-label>
+        <mat-select formControlName="city" required>
+          @for (city of availableCities; track city) {
+          <mat-option [value]="city">{{ city }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      @if(error()) {
+      <div>
+        <mat-error class="text-red-500"> {{ error() }} </mat-error>
+      </div>
+      }
+
+      <button
+        matButton="filled"
+        color="primary"
+        type="submit"
+        [disabled]="isSubmitting()"
+        class="my-3"
+      >
+        <span>Ajouter</span>
+        <mat-icon class="ml-2">add</mat-icon>
+      </button>
+    </form>
+  </div>
+</mat-dialog-content>

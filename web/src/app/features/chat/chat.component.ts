@@ -9,13 +9,13 @@ import {
 import { LoaderComponent } from '../../core/loader/loader.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
-import { SidebarComponent } from '../../core/sidebar/sidebar.component';
-import { ChatboxComponent } from '../../core/chatbox/chatbox.component';
-import { TextbarComponent } from '../../core/textbar/textbar.component';
 import { AuthenticationService } from '../../shared/auth.service';
 import ChatService from '../../shared/chat.service';
 import { Message } from '../../shared/messages';
 import { ReactiveFormsModule } from '@angular/forms';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { ChatboxComponent } from './components/chatbox/chatbox.component';
+import { TextbarComponent } from './components/textbar/textbar.component';
 
 @Component({
   selector: 'app-chat',
@@ -35,8 +35,10 @@ export class ChatComponent implements OnInit {
   private authService = inject(AuthenticationService);
 
   public isLoading = false;
+  public isGeneratingAnswer = signal(false);
 
   public activeConversation = signal<string | null>(null);
+  public characterName = signal<string>('');
 
   private chatService = inject(ChatService);
 

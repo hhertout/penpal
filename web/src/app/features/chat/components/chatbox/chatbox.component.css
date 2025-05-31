@@ -7,7 +7,7 @@
 
 .chat-container {
   overflow: hidden;
-  max-height: 80vh;
+  height: 80vh;
   width: 100%;
   margin-block: 2rem;
 }
@@ -36,7 +36,6 @@
   max-width: 70%;
   padding: 10px 14px;
   border-radius: 20px;
-  margin-bottom: 8px;
   position: relative;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -70,7 +69,6 @@
   background-color: #0b93f6;
   color: #fff;
   align-self: flex-end;
-  margin-left: auto;
   border-bottom-right-radius: 5px;
 }
 

@@ -5,18 +5,24 @@
   </div>
   } @else {
   <div>
-    <app-sidebar [activeConversation]="activeConversation"></app-sidebar>
+    <app-sidebar
+      [activeConversation]="activeConversation"
+      [characterName]="characterName"
+    />
     <section class="main-content">
       <div class="content-wrapper">
         <app-chatbox
           [activeConversation]="activeConversation"
           [isLoading]="isMessagesLoading"
           [messages]="messages"
-        ></app-chatbox>
+          [isGeneratingAnswer]="isGeneratingAnswer"
+          [characterName]="characterName"
+        />
         <app-textbar
           [activeConversation]="activeConversation"
           [messages]="messages"
-        ></app-textbar>
+          [isGeneratingAnswer]="isGeneratingAnswer"
+        />
       </div>
     </section>
   </div>

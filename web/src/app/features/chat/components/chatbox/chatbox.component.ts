@@ -3,18 +3,26 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  inject,
   Input,
   signal,
   ViewChild,
   WritableSignal,
 } from '@angular/core';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+} from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { Message } from '../../shared/messages';
-import { LoaderComponent } from '../loader/loader.component';
+import { LoaderComponent } from '../../../../core/loader/loader.component';
+import { Message } from '../../../../shared/messages';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-chatbox',
-  imports: [MatIcon, LoaderComponent],
+  imports: [MatIcon, LoaderComponent, MatButtonModule],
   templateUrl: './chatbox.component.html',
   styleUrl: './chatbox.component.css',
 })
@@ -28,9 +36,25 @@ export class ChatboxComponent implements AfterViewInit, AfterViewChecked {
   @Input()
   messages: WritableSignal<Message[]> = signal([]);
 
+  @Input()
+  isGeneratingAnswer = signal(false);
+
+  @Input()
+  characterName = signal<string>('');
+
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef;
 
   private previousMessageCount = 0;
+
+  dialog = inject(MatDialog);
+
+  openDialog(correction: string): void {
+    this.dialog.open(DialogCorrectionDialog, {
+      data: {
+        correction: correction,
+      },
+    });
+  }
 
   ngAfterViewInit(): void {
     if (this.chatWrapper) {
@@ -44,7 +68,7 @@ export class ChatboxComponent implements AfterViewInit, AfterViewChecked {
       this.messages().length > this.previousMessageCount
     ) {
       this.scrollToBottom();
-      this.previousMessageCount = this.messages().length; // Mettre à jour le compteur
+      this.previousMessageCount = this.messages().length;
     }
   }
 
@@ -54,4 +78,13 @@ export class ChatboxComponent implements AfterViewInit, AfterViewChecked {
       element.scrollTop = element.scrollHeight;
     });
   }
+}
+
+@Component({
+  selector: 'dialog-data-correction-dialog',
+  templateUrl: './dialog-data-correction-dialog.html',
+  imports: [MatDialogTitle, MatDialogContent, MatIcon],
+})
+export class DialogCorrectionDialog {
+  data = inject(MAT_DIALOG_DATA);
 }
