@@ -1,0 +1,6 @@
+.not-found-icon {
+  width: 60px;
+  height: 60px;
+  font-size: 60px;
+  color: var(--mat-sys-on-error);
+}
