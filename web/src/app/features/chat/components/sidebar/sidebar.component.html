@@ -20,15 +20,23 @@
           role="listitem"
           class="conversation-item"
           [style]="
-            activeConversation() == item._id ? 'background-color: #f0f0f0;' : ''
+            activeConversation() == item._id
+              ? 'background-color: var(--mat-sys-secondary);'
+              : ''
           "
         >
           <div
             (click)="onConversationChange(item._id)"
             class="w-full cursor-pointer flex items-center justify-between"
           >
-            <div class="flex items-center gap-2">
-              <span>{{ item.character.name }}</span>
+            <div class="flex items-center gap-3">
+              <mat-icon fontIcon="face" />
+              <div class="flex flex-col items-start justify-start">
+                <span>{{ item.character.name }}</span>
+                <span class="conversation-item-city">
+                  {{ item.character.city }}
+                </span>
+              </div>
             </div>
             <mat-icon fontIcon="chevron_right" />
           </div>

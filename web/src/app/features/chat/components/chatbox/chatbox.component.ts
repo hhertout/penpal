@@ -2,6 +2,7 @@ import {
   AfterViewChecked,
   AfterViewInit,
   Component,
+  effect,
   ElementRef,
   inject,
   Input,
@@ -44,9 +45,18 @@ export class ChatboxComponent implements AfterViewInit, AfterViewChecked {
 
   @ViewChild('chatWrapper') private chatWrapper!: ElementRef;
 
-  private previousMessageCount = 0;
+  private previousMessagesLength: number = 0;
 
   dialog = inject(MatDialog);
+
+  constructor() {
+    effect(() => {
+      if (this.messages().length > 0)
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, 0);
+    });
+  }
 
   openDialog(correction: string): void {
     this.dialog.open(DialogCorrectionDialog, {
@@ -63,12 +73,9 @@ export class ChatboxComponent implements AfterViewInit, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    if (
-      this.chatWrapper &&
-      this.messages().length > this.previousMessageCount
-    ) {
+    if (this.messages().length > this.previousMessagesLength) {
       this.scrollToBottom();
-      this.previousMessageCount = this.messages().length;
+      this.previousMessagesLength = this.messages().length;
     }
   }
 

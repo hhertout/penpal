@@ -92,8 +92,9 @@ export class TextbarComponent {
     } catch (err) {
       console.error('Error sending message:', err);
     } finally {
-      this.isGeneratingAnswer.set(false);
       this.chatForm.reset();
+      this.isGeneratingAnswer.set(false);
+      this.chatForm.enable();
     }
   }
 }
