@@ -17,7 +17,9 @@ class Gemini:
     character: CharacterModel
     user_country: str
 
-    def __init__(self, character: CharacterModel, user_country: str="France"):
+    def __init__(self, character: CharacterModel = None, user_country: str="France"):
+        if character is None:
+            character = CharacterModel(name="Unknow", city="Melbourne", country="Australia", gender="m")
         self.user_country = user_country
         self.character = character
         self.client  = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
@@ -52,6 +54,20 @@ class Gemini:
             "NEVER use phrases like 'How can I assist you' or 'Is there anything else I can help you with?'. "
             "NEVER offer help unless the user clearly asks for it. "
             "Your output should be concise."
+        )
+
+        self.random_french_phrase_prompt = "Give a phrase in french. The goal will be to translate it, so give a sentence with some conjugation or vocabulary difficulties. You have to respond only with the sentence to translate."
+
+    def quick_prompt(self, prompt: str):
+        return self.client.models.generate_content(
+            model=self.DEFAULT_MODEL,
+            contents=[prompt]
+        )
+
+    def translate_correction(self, input: str, translation: str):
+        return self.client.models.generate_content(
+            model=self.DEFAULT_MODEL,
+            contents=[f"Correct me this sentence : {translation}.\nThe french phrase i try to translate in english is : {input}.\n Tell me first if the translation is good or not"]
         )
 
     def prompt(self, message:str) -> GenerateContentResponse:
